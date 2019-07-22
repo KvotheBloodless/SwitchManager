@@ -30,7 +30,7 @@ public class Switch {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final Integer id) {
 
         this.id = id;
     }
@@ -40,7 +40,7 @@ public class Switch {
         return circuit;
     }
 
-    public void setCircuit(Circuit circuit) {
+    public void setCircuit(final Circuit circuit) {
 
         this.circuit = circuit;
     }
@@ -50,7 +50,7 @@ public class Switch {
         return state;
     }
 
-    public boolean setState(CircuitState state) {
+    public boolean setState(final CircuitState state) {
 
         if (this.state != state) {
 
