@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.TaskScheduler;
 
@@ -17,8 +18,11 @@ import au.com.venilia.network.service.NetworkCommunicationsService;
 import au.com.venilia.network.service.NetworkCommunicationsService.PeerGroup;
 import au.com.venilia.switching.dao.SwitchDao;
 import au.com.venilia.switching.domain.Switch;
+import au.com.venilia.switching.event.RemoteSwitchEvent;
 
 public class SwitchServiceImpl implements SwitchService {
+
+	private final ApplicationEventPublisher eventPublisher;
 
 	private final TaskScheduler scheduler;
 
@@ -30,10 +34,12 @@ public class SwitchServiceImpl implements SwitchService {
 
 	private final long switchStateBroadcastDelaySeconds;
 
-	public SwitchServiceImpl(final TaskScheduler scheduler, final NetworkCommunicationsService networkService,
+	public SwitchServiceImpl(final ApplicationEventPublisher eventPublisher, final TaskScheduler scheduler,
+			final NetworkCommunicationsService networkService,
 			final ControllerRoleNegotiationService negotiationService, final Connection connection,
 			final long switchStateBroadcastDelaySeconds) {
 
+		this.eventPublisher = eventPublisher;
 		this.scheduler = scheduler;
 		this.networkService = networkService;
 		this.negotiationService = negotiationService;
@@ -89,9 +95,9 @@ public class SwitchServiceImpl implements SwitchService {
 			swich = new Switch(circuit, state);
 			updated = true;
 		}
-		
+
 		updated |= swich.setState(state);
-		
+
 		switchDao.createOrUpdate(swich);
 
 		if (updated) {
@@ -103,7 +109,7 @@ public class SwitchServiceImpl implements SwitchService {
 			if (localEvent)
 				networkService.send(CONTROLLERS, buildCommand(swich).getBytes());
 			else
-				; // TODO: Update UI
+				eventPublisher.publishEvent(new RemoteSwitchEvent(this, circuit, state));
 		}
 	}
 
