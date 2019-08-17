@@ -2,73 +2,89 @@ package au.com.venilia.switching.service;
 
 public interface SwitchService {
 
-	public CircuitState getState(final Circuit circuit);
+    public CircuitState getState(final Circuit circuit);
 
-	public void setState(final Circuit circuit, final CircuitState state);
+    public void setState(final Circuit circuit, final CircuitState state);
 
-	public void setUnattendedMode(final boolean value);
+    public void setUnattendedMode(final boolean value);
 
-	public static enum Circuit {
+    public static enum Circuit {
 
-		INTERIOR_LIGHT('a', false), ENGINEERING_LIGHT('b', false), HYDRAULIC('c', false), OUTLET('d', false),
-		FAN('e', false), VENTILATION('f', true), FRESH_WATER_PUMP('g', false), WASTE_WATER_PUMP('h', false),
-		WASH_DOWN_PUMP('i', false), INTERNET('j', false), ENTERTAINMENT('k', false), REFRIGERATION('l', true),
-		ANCHOR_LIGHT('m', true), STEAMING_LIGHT('n', false), RED_OVER_GREEN_LIGHT('o', false), DECK_LIGHT('p', false),
-		NAVIGATION_LIGHT('q', false), AUTOPILOT('r', false), INSTRUMENT('s', false), RADIO('t', false);
+        INTERIOR_LIGHT('a', false),
+        ENGINEERING_LIGHT('b', false),
+        HYDRAULIC('c', false),
+        OUTLET('d', false),
+        FAN('e', false),
+        VENTILATION('f', true),
+        FRESH_WATER_PUMP('g', false),
+        WASTE_WATER_PUMP('h', false),
+        WASH_DOWN_PUMP('i', false),
+        INTERNET('j', false),
+        ENTERTAINMENT('k', false),
+        REFRIGERATION('l', true),
+        ANCHOR_LIGHT('m', true),
+        STEAMING_LIGHT('n', false),
+        RED_OVER_GREEN_LIGHT('o', false),
+        DECK_LIGHT('p', false),
+        NAVIGATION_LIGHT('q', false),
+        AUTOPILOT('r', false),
+        INSTRUMENT('s', false),
+        RADIO('t', false);
 
-		private final char code;
+        private final char code;
 
-		private final boolean critical;
+        private final boolean critical;
 
-		private Circuit(final char code, final boolean critical) {
+        private Circuit(final char code, final boolean critical) {
 
-			this.code = code;
-			this.critical = critical;
-		}
+            this.code = code;
+            this.critical = critical;
+        }
 
-		public char getCode() {
+        public char getCode() {
 
-			return code;
-		}
+            return code;
+        }
 
-		public boolean isCritical() {
+        public boolean isCritical() {
 
-			return critical;
-		}
+            return critical;
+        }
 
-		public static Circuit fromCode(final char code) {
+        public static Circuit fromCode(final char code) {
 
-			for (final Circuit circuit : values())
-				if (circuit.code == code)
-					return circuit;
+            for (final Circuit circuit : values())
+                if (circuit.code == code)
+                    return circuit;
 
-			throw new EnumConstantNotPresentException(Circuit.class, "" + code);
-		}
-	}
+            throw new EnumConstantNotPresentException(Circuit.class, "" + code);
+        }
+    }
 
-	public static enum CircuitState {
+    public static enum CircuitState {
 
-		OFF(0), ON(1);
+        OFF(0),
+        ON(1);
 
-		private final int code;
+        private final int code;
 
-		CircuitState(final int code) {
+        CircuitState(final int code) {
 
-			this.code = code;
-		}
+            this.code = code;
+        }
 
-		public int getCode() {
+        public int getCode() {
 
-			return code;
-		}
+            return code;
+        }
 
-		public static CircuitState fromCode(final int code) {
+        public static CircuitState fromCode(final int code) {
 
-			for (final CircuitState state : values())
-				if (state.getCode() == code)
-					return state;
+            for (final CircuitState state : values())
+                if (state.getCode() == code)
+                    return state;
 
-			throw new EnumConstantNotPresentException(CircuitState.class, "" + code);
-		}
-	}
+            throw new EnumConstantNotPresentException(CircuitState.class, "" + code);
+        }
+    }
 }
