@@ -154,6 +154,8 @@ public class SwitchServiceImpl implements SwitchService {
 
 		boolean updated = false;
 
+		LOG.debug("Circuit {} toggled {}", circuit, state);
+
 		// Switch toggled, save the updated state
 		Switch swich = switchDao.getByCircuit(circuit);
 		if (swich == null) {

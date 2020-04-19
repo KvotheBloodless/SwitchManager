@@ -25,11 +25,13 @@ public interface SwitchService {
         ANCHOR_LIGHT('m', true),
         STEAMING_LIGHT('n', false),
         RED_OVER_GREEN_LIGHT('o', false),
-        DECK_LIGHT('p', false),
+        DECK_LIGHT_FORWARD('p', false),
         NAVIGATION_LIGHT('q', false),
         AUTOPILOT('r', false),
         INSTRUMENT('s', false),
-        RADIO('t', false);
+        RADIO('t', false),
+        DECK_LIGHT_COCKPIT('u', false),
+        DECK_LIGHT_AFT('v', false);
 
         private final char code;
 
