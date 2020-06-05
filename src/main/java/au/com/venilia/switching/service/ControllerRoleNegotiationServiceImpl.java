@@ -41,13 +41,13 @@ public class ControllerRoleNegotiationServiceImpl implements ControllerRoleNegot
         return role;
     }
 
-    @EventListener(condition = "#event.moduleGroup == T(au.com.venilia.xbee.service.ModuleDiscoveryService.ModuleGroup).CONTROLLERS")
+    @EventListener(condition = "#event.peerGroup == T(au.com.venilia.network.service.NetworkCommunicationsService.PeerGroup).CONTROLLERS")
     public void negotiateRoles(final PeerDetectionEvent event) {
 
         final int localInstanceId = networkDiscoveryService.getLocalInstanceId();
 
         // We quite simply look at the known modules (including this one) and take the one with lowest ID as the master
-        final TreeSet<Integer> allDevices = Sets.newTreeSet(networkDiscoveryService.getPeerIds(event.getModuleGroup()));
+        final TreeSet<Integer> allDevices = Sets.newTreeSet(networkDiscoveryService.getPeerIds(event.getPeerGroup()));
         allDevices.add(localInstanceId);
 
         // The first device in allDevices list is the master
